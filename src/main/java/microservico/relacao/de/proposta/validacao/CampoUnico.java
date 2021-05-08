@@ -12,7 +12,7 @@ import microservico.relacao.de.proposta.proposta.PropostaRepository;
 
 @Component
 public class CampoUnico implements Validator{
-
+	
 	@Autowired
 	private PropostaRepository propostaRepository;
 	

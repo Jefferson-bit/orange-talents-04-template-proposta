@@ -20,6 +20,7 @@ import microservico.relacao.de.proposta.validacao.CampoUnico;
 public class NovaPropostaController {
 
 	private PropostaRepository propostaRepository;
+
 	@Autowired
 	private CampoUnico campoUnico;
 
@@ -32,7 +33,7 @@ public class NovaPropostaController {
 		binder.addValidators(campoUnico);
 	}
 
-	@PostMapping(value = "/propostas")
+	@PostMapping(value = "/novaProposta")
 	@Transactional
 	public ResponseEntity<NovaPropostaRequest> saveProposta(@Valid @RequestBody NovaPropostaRequest request) {
 		Proposta proposta = request.toModel();
