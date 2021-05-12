@@ -64,4 +64,5 @@ public class NovaPropostaRequest {
 	public BigDecimal getSalario() {
 		return salario;
 	}
+	
 }

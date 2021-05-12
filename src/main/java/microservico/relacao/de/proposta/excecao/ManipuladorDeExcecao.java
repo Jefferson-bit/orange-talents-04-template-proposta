@@ -31,4 +31,13 @@ public class ManipuladorDeExcecao {
 		}
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(validatorError);
 	}	
+	
+	@ExceptionHandler(RecursoNaoEncontradoExcecao.class)
+	public ResponseEntity<ErrorPadrao> recursoNaoEncontrado(RecursoNaoEncontradoExcecao ex,
+			HttpServletRequest request) {
+		ErrorPadrao validatorError = new ErrorPadrao(LocalDateTime.now(), 
+		HttpStatus.NOT_FOUND.value(), ex.getMessage(), "Not Found", request.getRequestURI());
+	
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(validatorError);
+	}	
 }

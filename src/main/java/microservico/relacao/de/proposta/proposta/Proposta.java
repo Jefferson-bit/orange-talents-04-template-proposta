@@ -35,7 +35,7 @@ public class Proposta {
 	@OneToMany(mappedBy = "proposta")
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 	@Enumerated(EnumType.STRING)
-	private StatusDaProposta statusDaProposta;
+	private StatusDaProposta resultadoSolicitacao;
 	private String numeroDoCartao;
 
 	public Proposta() {
@@ -47,6 +47,7 @@ public class Proposta {
 		this.endereco = endereco;
 		this.salario = salario;
 		this.documento = documento;
+		setResultadoSolicitacao(StatusDaProposta.SEM_REGISTRO);
 	}
 
 	public Long getId() {
@@ -73,12 +74,16 @@ public class Proposta {
 		return salario;
 	}
 
-	public StatusDaProposta getStatusDaProposta() {
-		return statusDaProposta;
+	public StatusDaProposta getResultadoSolicitacao() {
+		return resultadoSolicitacao;
 	}
 
-	public void setStatusDaProposta(StatusDaProposta statusDaProposta) {
-		this.statusDaProposta = statusDaProposta;
+	public void setResultadoSolicitacao(StatusDaProposta resultadoSolicitacao) {
+		this.resultadoSolicitacao = resultadoSolicitacao;
+	}
+	
+	public List<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
 	}
 
 	public String getNumeroDoCartao() {

@@ -35,11 +35,11 @@ public class AvaliacaoFinanceiraController {
 			AvaliacaoResponse consultandoAnalise = verificaAnaliseFinanceira.consultandoAnalise(request);
 			Avaliacao avaliacao = consultandoAnalise.toModel(propostaOptional.get());
 			StatusDaProposta status = consultandoAnalise.getResultadoSolicitacao().statusDaSolicitacao();
-			propostaOptional.get().setStatusDaProposta(status);
+			propostaOptional.get().setResultadoSolicitacao(status);
 			avaliacaoRepository.save(avaliacao);
 			return ResponseEntity.ok(consultandoAnalise);
 		} catch (FeignException.UnprocessableEntity ex) {
-			propostaOptional.get().setStatusDaProposta(StatusDaProposta.NAO_ELEGIVEL);
+			propostaOptional.get().setResultadoSolicitacao(StatusDaProposta.NAO_ELEGIVEL);
 			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
 		}
 	}
