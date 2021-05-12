@@ -28,9 +28,9 @@ public class CampoUnico implements Validator{
 		}
 		
 		NovaPropostaRequest request = (NovaPropostaRequest) target;
-		Optional<String> cpfOuCnpjOptional = propostaRepository.findBycpfOuCnpj(request.getCpfOuCnpj());
+		Optional<String> cpfOuCnpjOptional = propostaRepository.findBydocumento(request.getDocumento());
 		if(cpfOuCnpjOptional.isPresent()) {
-			 errors.rejectValue("cpfOuCnpj", null, "Já existe CPF/CNPJ " + request.getCpfOuCnpj());
+			 errors.rejectValue("documento", null, "Já existe CPF/CNPJ " + request.getDocumento());
 		}
 	}
 }

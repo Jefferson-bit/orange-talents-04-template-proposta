@@ -17,13 +17,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import microservico.relacao.de.proposta.validacao.CampoUnico;
 
 @RestController
-public class NovaPropostaController {
-
-	private PropostaRepository propostaRepository;
+public class NovaPropostaController{
 
 	@Autowired
 	private CampoUnico campoUnico;
-
+	private PropostaRepository propostaRepository;	
 	public NovaPropostaController(PropostaRepository propostaRepository) {
 		this.propostaRepository = propostaRepository;
 	}
@@ -32,14 +30,13 @@ public class NovaPropostaController {
 	public void init(WebDataBinder binder) {
 		binder.addValidators(campoUnico);
 	}
-
-	@PostMapping(value = "/novaProposta")
+	
+	@PostMapping(value = "/propostas")
 	@Transactional
-	public ResponseEntity<NovaPropostaRequest> saveProposta(@Valid @RequestBody NovaPropostaRequest request) {
+	public ResponseEntity<NovaPropostaRequest> salvandoProposta(@Valid @RequestBody NovaPropostaRequest request) {
 		Proposta proposta = request.toModel();
 		propostaRepository.save(proposta);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposta.getId())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposta.getId()).toUri();
 		return ResponseEntity.created(uri).body(request);
 	}
 

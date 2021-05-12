@@ -1,6 +1,6 @@
 package microservico.relacao.de.proposta.enums;
 
-public enum StatusDaSolicitacao {
+public enum StatusDaProposta {
 
 	ELEGIVEL,
 	NAO_ELEGIVEL;
