@@ -34,6 +34,20 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
 
+  db:
+    image: mysql
+    container_name: mysql
+    security_opt:
+    - seccomp:unconfined
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: proposta
+      
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-volume:/var/lib/mysql
+
   keycloak:
     image: jboss/keycloak
     ports:
@@ -93,6 +107,21 @@ services:
       KAFKA_HOST: "kafka:29092"
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
 
+  proposta:
+   build:
+    dockerfile: Dockerfile
+    context: .
+   image: proposta/zupacademy
+   container_name: proposta
+   environment:
+     BD_URL: jdbc:mysql://db:3306/proposta?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
+     AVALIACAO_URL: http://localhost:9999
+     CARTAO_URL: http://localhost:8888
+   ports:
+     - '8080:8080'
+   depends_on:
+     - "db"
+     
   jaeger:
     image: jaegertracing/all-in-one
     ports:
@@ -138,3 +167,4 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  mysql-volume:

@@ -1,6 +1,5 @@
 FROM openjdk:11
-VOLUME /cdc
-RUN mvnw clean package
+VOLUME /proposta
 EXPOSE 8080
-ADD ./target/proposta.jar proposta.jar
+COPY ./target/proposta.jar proposta.jar
 ENTRYPOINT ["java", "-jar", "proposta.jar"]
