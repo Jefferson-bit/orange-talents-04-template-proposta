@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import feign.FeignException;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
+import microservico.relacao.de.proposta.feignclient.AvaliacaoFinanceiraFeignClient;
 import microservico.relacao.de.proposta.proposta.Proposta;
 import microservico.relacao.de.proposta.proposta.PropostaRepository;
 
@@ -39,7 +40,6 @@ public class AvaliacaoFinanceiraController {
 			avaliacaoRepository.save(avaliacao);
 			return ResponseEntity.ok(consultandoAnalise);
 		} catch (FeignException.UnprocessableEntity ex) {
-			propostaOptional.get().setResultadoSolicitacao(StatusDaProposta.NAO_ELEGIVEL);
 			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
 		}
 	}

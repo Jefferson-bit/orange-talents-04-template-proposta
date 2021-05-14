@@ -115,10 +115,10 @@ services:
    container_name: proposta
    environment:
      BD_URL: jdbc:mysql://db:3306/proposta?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
-     AVALIACAO_URL: http://analise:9999
-     CARTAO_URL: http://contas:8888
+     AVALIACAO_URL: http://localhost:9999
+     CARTAO_URL: http://localhost:8888
    ports:
-     - '8081:8081'
+     - '8080:8080'
    depends_on:
      - "db"
      

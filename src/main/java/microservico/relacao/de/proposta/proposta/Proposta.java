@@ -12,8 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import microservico.relacao.de.proposta.avaliacao.Avaliacao;
+import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
 
 @Entity
@@ -36,8 +38,10 @@ public class Proposta {
 	private List<Avaliacao> avaliacoes = new ArrayList<>();
 	@Enumerated(EnumType.STRING)
 	private StatusDaProposta resultadoSolicitacao;
+	@OneToOne(mappedBy = "proposta")
+	private Cartao cartao;
 	private String numeroDoCartao;
-
+	
 	public Proposta() {
 	}
 
@@ -91,7 +95,13 @@ public class Proposta {
 	}
 
 	public void setNumeroDoCartao(String numeroDoCartao) {
+		if(numeroDoCartao == null) {
+			throw new IllegalArgumentException("Cartão não pode ser nulo");
+		}
 		this.numeroDoCartao = numeroDoCartao;
 	}
-
+	
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
+	}
 }
