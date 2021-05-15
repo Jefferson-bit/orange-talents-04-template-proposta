@@ -10,7 +10,7 @@ import javax.validation.constraints.Positive;
 import microservico.relacao.de.proposta.validacao.CpfOuCnpj;
 
 public class NovaPropostaRequest {
-	
+
 	@Email(message = "Email invalido")
 	@NotBlank(message = "Email não pode ser vazio")
 	private String email;
@@ -24,10 +24,10 @@ public class NovaPropostaRequest {
 	@NotBlank(message = "CPF/CNPJ não pode ser vazio")
 	@CpfOuCnpj
 	private String documento;
-	
+
 	public NovaPropostaRequest() {
 	}
-	
+
 	public NovaPropostaRequest(
 			@Email(message = "Email invalido") @NotBlank(message = "Email não pode ser vazio") String email,
 			@NotBlank(message = "Nome não pode ser vazio") String nome,
@@ -44,7 +44,7 @@ public class NovaPropostaRequest {
 	public Proposta toModel() {
 		return new Proposta(email, nome, endereco, salario, documento);
 	}
-	
+
 	public String getDocumento() {
 		return documento;
 	}
@@ -64,5 +64,4 @@ public class NovaPropostaRequest {
 	public BigDecimal getSalario() {
 		return salario;
 	}
-	
 }

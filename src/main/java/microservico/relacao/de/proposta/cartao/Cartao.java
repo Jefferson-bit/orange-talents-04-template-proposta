@@ -37,20 +37,21 @@ public class Cartao {
 	}
 
 	public Cartao(String numero, LocalDateTime emitidoEm, String titular, BigDecimal limite, Proposta proposta) {
+		super();
 		this.numero = numero;
 		this.emitidoEm = emitidoEm;
 		this.titular = titular;
 		this.limite = limite;
 		this.proposta = proposta;
 	}
-	
+
 	public Cartao(String numero, LocalDateTime emitidoEm, String titular, BigDecimal limite) {
 		this.numero = numero;
 		this.emitidoEm = emitidoEm;
 		this.titular = titular;
 		this.limite = limite;
 	}
-	
+
 	@PrePersist
 	public void createdAt() {
 		emitidoEm = LocalDateTime.now();
@@ -62,10 +63,6 @@ public class Cartao {
 
 	public LocalDateTime getEmitidoEm() {
 		return emitidoEm;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public Proposta getProposta() {
@@ -80,6 +77,10 @@ public class Cartao {
 		return titular;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
 	public String getNumero() {
 		return numero;
 	}

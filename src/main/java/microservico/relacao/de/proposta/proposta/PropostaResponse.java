@@ -12,7 +12,7 @@ public class PropostaResponse {
 	private BigDecimal salario;
 	private String documento;
 	private StatusDaProposta resultadoSolicitacao;
-
+	
 	public PropostaResponse(Proposta proposta) {
 		email = proposta.getEmail();
 		nome = proposta.getNome();

@@ -2,18 +2,19 @@ package microservico.relacao.de.proposta.enums;
 
 public enum StatusDaAvaliacao {
 	
-	COM_RESTRICAO {
-		@Override
-		public StatusDaProposta statusDaSolicitacao() {
-			return StatusDaProposta.NAO_ELEGIVEL;
-		}
-	},
-	SEM_RESTRICAO {
-		@Override
-		public StatusDaProposta statusDaSolicitacao() {
-			return StatusDaProposta.ELEGIVEL;
-		}
-	};
+	COM_RESTRICAO(StatusDaProposta.NAO_ELEGIVEL),
+	SEM_RESTRICAO(StatusDaProposta.ELEGIVEL);
 	
-	public abstract StatusDaProposta statusDaSolicitacao();
+	private StatusDaProposta status;
+	
+	StatusDaAvaliacao(StatusDaProposta status) {
+		this.status = status;
+	}
+
+	public StatusDaProposta getStatus() {
+		return status;
+	}
+
+
+	
 }
