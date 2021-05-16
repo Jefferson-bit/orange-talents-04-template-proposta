@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface AvaliacaoFinanceiraFeignClient {
 	
 	@PostMapping( value = "/api/solicitacao")
-	AvaliacaoResponse consultandoAnalise(@RequestBody AvaliacaoRequest request);
+	AvaliacaoFeignResponse consultandoAnalise(@RequestBody AvaliacaoFeignRequest request);
 }

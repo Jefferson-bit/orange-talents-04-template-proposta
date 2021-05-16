@@ -3,6 +3,8 @@ package microservico.relacao.de.proposta.feignclient;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.proposta.Proposta;
 
@@ -12,6 +14,7 @@ public class CartaoFeignResponse {
 	private LocalDateTime emitidoEm;
 	private String titular;
 	private BigDecimal limite;
+	@NotNull(message = "Proposta não pode ser nula")
 	private Long idProposta;
 
 	public CartaoFeignResponse() {

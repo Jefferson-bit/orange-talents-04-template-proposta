@@ -118,11 +118,11 @@ services:
      BD_URL: jdbc:mysql://db:3306/proposta?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
      BD_USER: root
      BD_PASSWORD: root
-     PERFIL: dev
+     PROFILE: test
      AVALIACAO_URL: http://analise:9999
      CARTAO_URL: http://contas:8888
    ports:
-     - '8081:8081'
+     - 8081:8081
    depends_on:
      - "db"
      

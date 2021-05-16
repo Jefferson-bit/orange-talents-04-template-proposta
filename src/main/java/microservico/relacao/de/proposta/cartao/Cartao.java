@@ -1,5 +1,6 @@
 package microservico.relacao.de.proposta.cartao;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 import microservico.relacao.de.proposta.biometria.Biometria;
+import microservico.relacao.de.proposta.bloqueio.Bloqueio;
 import microservico.relacao.de.proposta.proposta.Proposta;
 
 @Entity
-public class Cartao {
+public class Cartao implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,6 +33,8 @@ public class Cartao {
 	private BigDecimal limite;
 	@OneToMany(mappedBy = "cartao")
 	private List<Biometria> biometrias = new ArrayList<>();
+	@OneToMany(mappedBy = "cartao")
+	private List<Bloqueio> bloqueios = new ArrayList<>();
 	@OneToOne
 	@JoinColumn(name = "proposta_id")
 	private Proposta proposta;
@@ -37,7 +43,6 @@ public class Cartao {
 	}
 
 	public Cartao(String numero, LocalDateTime emitidoEm, String titular, BigDecimal limite, Proposta proposta) {
-		super();
 		this.numero = numero;
 		this.emitidoEm = emitidoEm;
 		this.titular = titular;

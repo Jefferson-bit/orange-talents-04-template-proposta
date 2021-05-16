@@ -19,8 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import feign.FeignException;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
 import microservico.relacao.de.proposta.feignclient.AvaliacaoFinanceiraFeignClient;
-import microservico.relacao.de.proposta.feignclient.AvaliacaoRequest;
-import microservico.relacao.de.proposta.feignclient.AvaliacaoResponse;
+import microservico.relacao.de.proposta.feignclient.AvaliacaoFeignRequest;
+import microservico.relacao.de.proposta.feignclient.AvaliacaoFeignResponse;
 import microservico.relacao.de.proposta.validacao.CampoUnico;
 
 @RestController
@@ -49,12 +49,12 @@ public class NovaPropostaController {
 		Proposta proposta = request.toModel();
 		try {
 			proposta = propostaRepository.save(proposta);
-			AvaliacaoRequest requestAv = new AvaliacaoRequest(proposta.getDocumento(), proposta.getNome(),
+			AvaliacaoFeignRequest requestAv = new AvaliacaoFeignRequest(proposta.getDocumento(), proposta.getNome(),
 					proposta.getId());
-			AvaliacaoResponse consultandoAnalise = verificaAnaliseFinanceira.consultandoAnalise(requestAv);
+			AvaliacaoFeignResponse consultandoAnalise = verificaAnaliseFinanceira.consultandoAnalise(requestAv);
 			StatusDaProposta status = consultandoAnalise.status();
 			proposta.setResultadoSolicitacao(status);
-			
+		
 		} catch (FeignException.UnprocessableEntity ex) {
 			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
 		}

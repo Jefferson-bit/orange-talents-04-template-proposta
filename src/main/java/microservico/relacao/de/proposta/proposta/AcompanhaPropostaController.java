@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import microservico.relacao.de.proposta.excecao.RecursoNaoEncontradoExcecao;
 
 @RestController
-@RequestMapping(value = "/acompanhaPropostas")
+@RequestMapping(value = "/api/acompanhaPropostas")
 public class AcompanhaPropostaController {
 
 	private PropostaRepository propostaRepository;

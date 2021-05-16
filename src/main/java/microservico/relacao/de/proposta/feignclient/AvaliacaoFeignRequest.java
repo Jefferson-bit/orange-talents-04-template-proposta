@@ -2,17 +2,17 @@ package microservico.relacao.de.proposta.feignclient;
 
 import microservico.relacao.de.proposta.enums.StatusDaAvaliacao;
 
-public class AvaliacaoRequest {
+public class AvaliacaoFeignRequest {
 
 	private String documento;
 	private String nome;
 	private Long idProposta;
 	private StatusDaAvaliacao resultadoSolicitacao;
 	
-	public AvaliacaoRequest() {
+	public AvaliacaoFeignRequest() {
 	}
 
-	public AvaliacaoRequest(String documento, String nome, Long idProposta) {
+	public AvaliacaoFeignRequest(String documento, String nome, Long idProposta) {
 		this.documento = documento;
 		this.nome = nome;
 		this.idProposta = idProposta;

@@ -36,7 +36,7 @@ public class NovaBiometriaController {
 		Optional<Cartao> cartaoOptional = cartaoRepository.findById(idCartao);
 		Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
 		Biometria biometria = request.toModel(cartao);	
-		if (Base64.isBase64(biometria.getFingerPrint())) {
+		if (!Base64.isBase64(biometria.getFingerPrint())) {
 			return ResponseEntity.badRequest().body("Biometria invália");
 		}
 		biometriaRepository.save(biometria);
