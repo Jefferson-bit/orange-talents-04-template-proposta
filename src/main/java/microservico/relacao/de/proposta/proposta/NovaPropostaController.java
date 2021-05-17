@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import feign.FeignException;
+import io.micrometer.core.annotation.Counted;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
 import microservico.relacao.de.proposta.feignclient.AvaliacaoFinanceiraFeignClient;
 import microservico.relacao.de.proposta.feignclient.AvaliacaoFeignRequest;
@@ -43,6 +44,15 @@ public class NovaPropostaController {
 		binder.addValidators(campoUnico);
 	}
 
+	
+	@Counted
+
+	public void counted() {
+		
+		
+		
+	}
+	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<?> salvandoProposta(@Valid @RequestBody NovaPropostaRequest request) {
