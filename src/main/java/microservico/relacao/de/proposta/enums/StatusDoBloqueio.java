@@ -1,8 +1,6 @@
 package microservico.relacao.de.proposta.enums;
 
-public enum StatusDoBloqueio {
-	
-	DESBLOQUEADO,
+public enum StatusDoBloqueio {	
 	BLOQUEADO,
 	FALHA;
 }

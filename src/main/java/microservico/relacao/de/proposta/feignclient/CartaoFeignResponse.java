@@ -16,7 +16,7 @@ public class CartaoFeignResponse {
 	private BigDecimal limite;
 	@NotNull(message = "Proposta não pode ser nula")
 	private Long idProposta;
-
+		
 	public CartaoFeignResponse() {
 	}
 
@@ -47,5 +47,4 @@ public class CartaoFeignResponse {
 	public String getTitular() {
 		return titular;
 	}
-
 }

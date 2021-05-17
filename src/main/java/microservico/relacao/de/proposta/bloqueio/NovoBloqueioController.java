@@ -35,7 +35,7 @@ public class NovoBloqueioController {
 		this.cartaoRepository = cartaoRepository;
 		this.cartaoFeignClient = cartaoFeignClient;
 	}
-
+	
 	@PostMapping(value = "/{idCartao}")
 	public ResponseEntity<?> cadastraBloqueio(
 								@PathVariable String idCartao,
@@ -46,20 +46,13 @@ public class NovoBloqueioController {
 			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
 			
 			BloqueioFeignResponse bloqueiaCartaoResponse = cartaoFeignClient.bloqueiaCartao(cartao.getNumero(), request);
-			bloqueiaCartaoResponse.setSistemaResponsavel(servletRequest.getHeader("User-Agent"));
-			Bloqueio bloqueio = bloqueiaCartaoResponse.toModel(cartao);
-			
-			String header = servletRequest.getHeader("User-Agent");
-			System.out.println("salve manito agent: "+ header);
-			bloqueio.setIpDoCliente(servletRequest.getRemoteAddr());
-			
+			Bloqueio bloqueio = bloqueiaCartaoResponse.toModel(cartao, servletRequest);
 			bloqueioRepository.save(bloqueio);
 			return ResponseEntity.ok(bloqueiaCartaoResponse);
 		} catch (FeignException.UnprocessableEntity ex) {
 			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
 		} catch (FeignException.BadRequest ex) {
 			return ResponseEntity.badRequest().build();
-
 		}
 	}
 

@@ -21,7 +21,7 @@ import microservico.relacao.de.proposta.proposta.Proposta;
 
 @Entity
 public class Cartao implements Serializable{
-
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -89,5 +89,9 @@ public class Cartao implements Serializable{
 	public String getNumero() {
 		return numero;
 	}
-
+	
+	public List<Bloqueio> getBloqueios() {
+		return bloqueios;
+	}
+	
 }

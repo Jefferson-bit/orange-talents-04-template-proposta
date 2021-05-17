@@ -29,14 +29,15 @@ public class Bloqueio {
 	@ManyToOne
 	@JoinColumn(name = "cartao_id")
 	private Cartao cartao;
-		
+
 	public Bloqueio() {
 	}
 
-	public Bloqueio(String sistemaResponsavel, StatusDoBloqueio resultado, Cartao cartao) {
+	public Bloqueio(String sistemaResponsavel, StatusDoBloqueio resultado, Cartao cartao, String ipDoCliente) {
 		this.sistemaResponsavel = sistemaResponsavel;
 		this.resultado = resultado;
 		this.cartao = cartao;
+		this.ipDoCliente = ipDoCliente;
 	}
 	
 	@PrePersist
@@ -66,9 +67,5 @@ public class Bloqueio {
 	
 	public String getIpDoCliente() {
 		return ipDoCliente;
-	}
-
-	public void setIpDoCliente(String ipDoCliente) {
-		this.ipDoCliente = ipDoCliente;
-	}
+	}	
 }
