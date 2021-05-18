@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 import microservico.relacao.de.proposta.validacao.CpfOuCnpj;
 
@@ -19,7 +20,7 @@ public class NovaPropostaRequest {
 	@NotBlank(message = "Endereço não pode ser vazio")
 	private String endereco;
 	@NotNull(message = "Salário não pode ser nulo")
-	@Positive
+	@PositiveOrZero
 	private BigDecimal salario;
 	@NotBlank(message = "CPF/CNPJ não pode ser vazio")
 	@CpfOuCnpj

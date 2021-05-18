@@ -1,10 +1,10 @@
-package microservico.relacao.de.proposta.bloqueio;
+package microservico.relacao.de.proposta.aviso;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,60 +13,60 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
 import microservico.relacao.de.proposta.cartao.Cartao;
-import microservico.relacao.de.proposta.enums.StatusDoBloqueio;
 
 @Entity
-public class Bloqueio {
-	
+public class Aviso {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Instant bloqueadoEm;
+	@Column(nullable = false)
+	private String destino;
+	@Column(nullable = false)
+	private LocalDate validoAte;
+	@Column(name = "criadoEm")
+	private Instant createdAt;
+	@Column(name = "userAgent")
 	private String sistemaResponsavel;
 	private String ipDoCliente;
-	@Enumerated(EnumType.STRING)
-	private StatusDoBloqueio resultado;
 	@ManyToOne
 	@JoinColumn(name = "cartao_id")
 	private Cartao cartao;
 
 	@Deprecated
-	public Bloqueio() {
+	public Aviso() {
 	}
 
-	public Bloqueio(String sistemaResponsavel, StatusDoBloqueio resultado, Cartao cartao, String ipDoCliente) {
+	public Aviso(String destino, LocalDate validoAte, String sistemaResponsavel, String ipDoCliente, Cartao cartao) {
+		this.destino = destino;
+		this.validoAte = validoAte;
 		this.sistemaResponsavel = sistemaResponsavel;
-		this.resultado = resultado;
-		this.cartao = cartao;
 		this.ipDoCliente = ipDoCliente;
+		this.cartao = cartao;
 	}
-	
+
 	@PrePersist
 	public void createdAt() {
-		bloqueadoEm = Instant.now();
+		createdAt = Instant.now();
 	}
-	
-	public Instant getBloqueadoEm() {
-		return bloqueadoEm;
+
+	public String getDestino() {
+		return destino;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
+	public String getIpDoCliente() {
+		return ipDoCliente;
+	}
+
 	public String getSistemaResponsavel() {
 		return sistemaResponsavel;
 	}
 
-	public StatusDoBloqueio getResultado() {
-		return resultado;
+	public LocalDate getValidoAte() {
+		return validoAte;
 	}
-	
-	public Cartao getCartao() {
-		return cartao;
-	}
-	
-	public String getIpDoCliente() {
-		return ipDoCliente;
-	}	
 }

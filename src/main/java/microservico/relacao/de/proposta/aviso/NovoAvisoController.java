@@ -1,4 +1,4 @@
-package microservico.relacao.de.proposta.bloqueio;
+package microservico.relacao.de.proposta.aviso;
 
 import java.util.Optional;
 
@@ -17,44 +17,38 @@ import feign.FeignException;
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.cartao.CartaoRepository;
 import microservico.relacao.de.proposta.excecao.RecursoNaoEncontradoExcecao;
-import microservico.relacao.de.proposta.feignclient.BloqueioFeignRequest;
-import microservico.relacao.de.proposta.feignclient.BloqueioFeignResponse;
+import microservico.relacao.de.proposta.feignclient.AvisoFeignRequest;
+import microservico.relacao.de.proposta.feignclient.AvisoFeignResponse;
 import microservico.relacao.de.proposta.feignclient.CartaoFeignClient;
 
 @RestController
-@RequestMapping(value = "/api/bloqueios")
-public class NovoBloqueioController {
-	
-	private BloqueioRepository bloqueioRepository;
-	private CartaoRepository cartaoRepository;
-	private CartaoFeignClient cartaoFeignClient;
+@RequestMapping(value = "/api/avisos")
+public class NovoAvisoController {
 
-	public NovoBloqueioController(BloqueioRepository bloqueioRepository, CartaoRepository cartaoRepository,
-			CartaoFeignClient cartaoFeignClient) {
-		this.bloqueioRepository = bloqueioRepository;
-		this.cartaoRepository = cartaoRepository;
+	private CartaoFeignClient cartaoFeignClient;
+	private AvisoRepository avisoRepository;
+	private CartaoRepository cartaoRepository;
+
+	public NovoAvisoController(CartaoFeignClient cartaoFeignClient, AvisoRepository avisoRepository,
+			CartaoRepository cartaoRepository) {
 		this.cartaoFeignClient = cartaoFeignClient;
+		this.avisoRepository = avisoRepository;
+		this.cartaoRepository = cartaoRepository;
 	}
-	
-	@PostMapping(value = "/{idCartao}")
-	public ResponseEntity<?> cadastraBloqueio(
-								@PathVariable String idCartao,
-								@Valid @RequestBody BloqueioFeignRequest request,
-								HttpServletRequest servletRequest) {
+
+	@PostMapping("/{idCartao}")
+	public ResponseEntity<?> cadastraAviso(@PathVariable String idCartao, @Valid @RequestBody AvisoFeignRequest request,
+			HttpServletRequest servletRequest) {
 		try {
 			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
 			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
-			
-			BloqueioFeignResponse bloqueiaCartaoResponse = cartaoFeignClient.bloqueiaCartao(cartao.getNumero(), request);
-			Bloqueio bloqueio = bloqueiaCartaoResponse.toModel(cartao, servletRequest);
-			bloqueioRepository.save(bloqueio);
-			
-			return ResponseEntity.ok(bloqueiaCartaoResponse);
+			AvisoFeignResponse consultaAviso = cartaoFeignClient.consultaAviso(cartao.getNumero(), request);
+
+			Aviso aviso = request.toModel(cartao, servletRequest);
+			avisoRepository.save(aviso);
+			return ResponseEntity.ok(consultaAviso);
 		} catch (FeignException.UnprocessableEntity ex) {
 			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
-		} catch (FeignException.BadRequest ex) {
-			return ResponseEntity.badRequest().build();
 		}
 	}
-
 }

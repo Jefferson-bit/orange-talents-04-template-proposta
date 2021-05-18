@@ -16,4 +16,6 @@ public interface CartaoFeignClient {
 	@PostMapping(value = "/api/cartoes/{id}/bloqueios")
 	BloqueioFeignResponse bloqueiaCartao(@PathVariable String id, @RequestBody BloqueioFeignRequest request);
 	
+	@PostMapping(value = "/api/cartoes/{idCartao}/avisos")
+	AvisoFeignResponse consultaAviso(@PathVariable String idCartao, @RequestBody AvisoFeignRequest request);
 }

@@ -15,15 +15,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
+import microservico.relacao.de.proposta.aviso.Aviso;
 import microservico.relacao.de.proposta.biometria.Biometria;
 import microservico.relacao.de.proposta.bloqueio.Bloqueio;
 import microservico.relacao.de.proposta.proposta.Proposta;
 
 @Entity
-public class Cartao implements Serializable{
-	
+public class Cartao implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -35,10 +36,13 @@ public class Cartao implements Serializable{
 	private List<Biometria> biometrias = new ArrayList<>();
 	@OneToMany(mappedBy = "cartao")
 	private List<Bloqueio> bloqueios = new ArrayList<>();
+	@OneToMany(mappedBy = "cartao")
+	private List<Aviso> avisos = new ArrayList<>();
 	@OneToOne
 	@JoinColumn(name = "proposta_id")
 	private Proposta proposta;
 
+	@Deprecated
 	public Cartao() {
 	}
 
@@ -85,13 +89,16 @@ public class Cartao implements Serializable{
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getNumero() {
 		return numero;
 	}
-	
+
 	public List<Bloqueio> getBloqueios() {
 		return bloqueios;
 	}
-	
+
+	public List<Aviso> getAvisos() {
+		return avisos;
+	}
 }

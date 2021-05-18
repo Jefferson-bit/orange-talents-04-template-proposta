@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.micrometer.core.annotation.Timed;
 import microservico.relacao.de.proposta.excecao.RecursoNaoEncontradoExcecao;
 
 @RestController
@@ -20,12 +19,7 @@ public class AcompanhaPropostaController {
 	public AcompanhaPropostaController(PropostaRepository propostaRepository) {
 		this.propostaRepository = propostaRepository;
 	}
-	
-	@Timed("endpoint proposta")
-	public void timed() {
-		acompanhaProposta(1L);
-	}
-	
+		
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PropostaResponse> acompanhaProposta(@PathVariable Long id){
 		Optional<Proposta> propostaOptional = propostaRepository.findById(id);

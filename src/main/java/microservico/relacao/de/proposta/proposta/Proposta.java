@@ -36,7 +36,8 @@ public class Proposta {
 	@OneToOne
 	@JoinColumn(name = "cartao_numero", referencedColumnName = "numero")
 	private Cartao cartao;
-	
+
+	@Deprecated
 	public Proposta() {
 	}
 
@@ -46,7 +47,6 @@ public class Proposta {
 		this.endereco = endereco;
 		this.salario = salario;
 		this.documento = documento;
-		setResultadoSolicitacao(StatusDaProposta.SEM_REGISTRO);
 	}
 
 	public Long getId() {

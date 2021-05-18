@@ -26,6 +26,7 @@ public class Biometria {
 	private Cartao cartao;
 	private Instant dataDaCriacao;
 
+	@Deprecated
 	public Biometria() {
 	}
 	
