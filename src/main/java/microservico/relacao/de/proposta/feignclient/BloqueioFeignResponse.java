@@ -8,7 +8,7 @@ import microservico.relacao.de.proposta.enums.StatusDoBloqueio;
 
 public class BloqueioFeignResponse {
 	
-	private StatusDoBloqueio resultado;;
+	private StatusDoBloqueio resultado;
 	private String sistemaResponsavel;
 	private String ipDoCliente;
 	public BloqueioFeignResponse() {

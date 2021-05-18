@@ -37,8 +37,9 @@ public class NovoAvisoController {
 	}
 
 	@PostMapping("/{idCartao}")
-	public ResponseEntity<?> cadastraAviso(@PathVariable String idCartao, @Valid @RequestBody AvisoFeignRequest request,
-			HttpServletRequest servletRequest) {
+	public ResponseEntity<?> cadastraAvisoViagem(@PathVariable String idCartao,
+										   @Valid @RequestBody AvisoFeignRequest request,
+										   HttpServletRequest servletRequest) {
 		try {
 			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
 			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));

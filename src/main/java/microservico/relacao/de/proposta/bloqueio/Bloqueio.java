@@ -2,6 +2,7 @@ package microservico.relacao.de.proposta.bloqueio;
 
 import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,6 +23,7 @@ public class Bloqueio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Instant bloqueadoEm;
+	@Column(nullable = false)
 	private String sistemaResponsavel;
 	private String ipDoCliente;
 	@Enumerated(EnumType.STRING)
