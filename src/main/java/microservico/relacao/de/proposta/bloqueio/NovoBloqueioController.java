@@ -1,6 +1,5 @@
 package microservico.relacao.de.proposta.bloqueio;
 
-import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,16 +7,10 @@ import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import feign.FeignException;
@@ -42,26 +35,12 @@ public class NovoBloqueioController {
 		this.cartaoRepository = cartaoRepository;
 		this.cartaoFeignClient = cartaoFeignClient;
 	}
-//	   @RequestMapping(value = "/username", method = RequestMethod.GET)
-//	    public String currentUserNameSimple(HttpServletRequest request, @AuthenticationPrincipal Jwt jwt ) {
-//		   	Authentication prin = SecurityContextHolder.getContext().getAuthentication();
-//		   	String claimAsString = jwt.getClaimAsString("email");
-//		   	System.out.println("Email: " + claimAsString);
-//		   	System.out.println("Testando: " + prin.getName() + "  " + prin.getAuthorities());
-//		    String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//		   	System.out.println("principal: " + name);
-//	        Principal principal = request.getUserPrincipal();
-//	        return principal.getName();
-//	    }
-	
 	
 	@PostMapping(value = "/{idCartao}")
-	@PreAuthorize("#email == #principal.email")
 	public ResponseEntity<?> cadastraBloqueio(
 			@PathVariable String idCartao,
 			@Valid @RequestBody BloqueioFeignRequest request,
-			HttpServletRequest servletRequest,
-			@AuthenticationPrincipal Jwt principal) {
+			HttpServletRequest servletRequest) {
 			
 		try {
 			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
