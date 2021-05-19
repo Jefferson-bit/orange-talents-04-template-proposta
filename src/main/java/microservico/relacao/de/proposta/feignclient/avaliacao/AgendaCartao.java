@@ -42,7 +42,7 @@ public class AgendaCartao {
 			cartaoRepository.save(cartao);
 			
 			proposta.setCartao(cartao);
-			LOG.info("Proposta {} agora tem o cartão {}, cartao da entidade proposta {}", proposta.getId(),
+			LOG.info("Proposta {} agora tem o cartão {}", proposta.getId(),
 					consultaCartao.getId().substring(0, 4) + "-****-****-****");
 			propostaRepository.save(proposta);
 		}

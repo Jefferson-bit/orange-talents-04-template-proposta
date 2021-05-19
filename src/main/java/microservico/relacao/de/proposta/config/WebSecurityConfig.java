@@ -18,8 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorizeRequests ->
 		authorizeRequests
+				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/acompanhaPropostas/**").hasAuthority("SCOPE_proposta-scope")
-				.antMatchers(HttpMethod.GET, "/actuator/**").hasAuthority("SCOPE_proposta-scope")
 				.antMatchers(HttpMethod.GET, "/api/propostas/**").hasAuthority("SCOPE_proposta-scope")
 				.antMatchers(HttpMethod.POST, "/api/propostas/**").hasAuthority("SCOPE_proposta-scope")
 				.antMatchers(HttpMethod.POST, "/api/avisos/**").hasAuthority("SCOPE_proposta-scope")
