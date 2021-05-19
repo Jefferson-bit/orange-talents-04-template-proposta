@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import javax.persistence.PrePersist;
 import microservico.relacao.de.proposta.aviso.Aviso;
 import microservico.relacao.de.proposta.biometria.Biometria;
 import microservico.relacao.de.proposta.bloqueio.Bloqueio;
+import microservico.relacao.de.proposta.carteira.Carteira;
 import microservico.relacao.de.proposta.proposta.Proposta;
 
 @Entity
@@ -38,6 +41,8 @@ public class Cartao implements Serializable {
 	private List<Bloqueio> bloqueios = new ArrayList<>();
 	@OneToMany(mappedBy = "cartao")
 	private List<Aviso> avisos = new ArrayList<>();
+	@OneToMany(mappedBy = "cartao")
+	private Set<Carteira> carteiras = new HashSet<>();
 	@OneToOne
 	@JoinColumn(name = "proposta_id")
 	private Proposta proposta;
@@ -69,6 +74,17 @@ public class Cartao implements Serializable {
 	public List<Biometria> getBiometrias() {
 		return biometrias;
 	}
+	public List<Bloqueio> getBloqueios() {
+		return bloqueios;
+	}
+	
+	public List<Aviso> getAvisos() {
+		return avisos;
+	}
+	
+	public Set<Carteira> getCarteiras() {
+		return carteiras;
+	}
 
 	public LocalDateTime getEmitidoEm() {
 		return emitidoEm;
@@ -94,11 +110,4 @@ public class Cartao implements Serializable {
 		return numero;
 	}
 
-	public List<Bloqueio> getBloqueios() {
-		return bloqueios;
-	}
-
-	public List<Aviso> getAvisos() {
-		return avisos;
-	}
 }

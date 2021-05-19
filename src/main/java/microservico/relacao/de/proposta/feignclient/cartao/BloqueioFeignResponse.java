@@ -1,4 +1,4 @@
-package microservico.relacao.de.proposta.feignclient;
+package microservico.relacao.de.proposta.feignclient.cartao;
 
 import javax.servlet.http.HttpServletRequest;
 

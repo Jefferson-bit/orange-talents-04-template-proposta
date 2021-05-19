@@ -17,9 +17,9 @@ import feign.FeignException;
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.cartao.CartaoRepository;
 import microservico.relacao.de.proposta.excecao.RecursoNaoEncontradoExcecao;
-import microservico.relacao.de.proposta.feignclient.AvisoFeignRequest;
-import microservico.relacao.de.proposta.feignclient.AvisoFeignResponse;
-import microservico.relacao.de.proposta.feignclient.CartaoFeignClient;
+import microservico.relacao.de.proposta.feignclient.cartao.AvisoFeignRequest;
+import microservico.relacao.de.proposta.feignclient.cartao.AvisoFeignResponse;
+import microservico.relacao.de.proposta.feignclient.cartao.CartaoFeignClient;
 
 @RestController
 @RequestMapping(value = "/api/avisos")

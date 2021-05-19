@@ -78,9 +78,11 @@ public class Proposta {
 	}
 
 	public void setResultadoSolicitacao(StatusDaProposta resultadoSolicitacao) {
+		if(resultadoSolicitacao == null) {
+			throw new IllegalArgumentException("Status da Proposta não pode ser nulo");
+		}
 		this.resultadoSolicitacao = resultadoSolicitacao;
 	}
-
 	
 	public Cartao getCartao() {
 		return cartao;

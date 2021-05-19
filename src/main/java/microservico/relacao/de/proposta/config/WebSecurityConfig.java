@@ -4,10 +4,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
@@ -19,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/api/propostas/**").hasAuthority("SCOPE_proposta-scope")
 				.antMatchers(HttpMethod.POST, "/api/propostas/**").hasAuthority("SCOPE_proposta-scope")
 				.antMatchers(HttpMethod.POST, "/api/avisos/**").hasAuthority("SCOPE_proposta-scope")
+				.antMatchers(HttpMethod.POST, "/api/carteiras/**").hasAuthority("SCOPE_proposta-scope")
 				.antMatchers(HttpMethod.GET, "/api/cartoes/**").hasAuthority("SCOPE_cartoes:read")
 				.antMatchers(HttpMethod.POST, "/api/cartoes/**").hasAuthority("SCOPE_cartoes:write")
 				.anyRequest().authenticated())

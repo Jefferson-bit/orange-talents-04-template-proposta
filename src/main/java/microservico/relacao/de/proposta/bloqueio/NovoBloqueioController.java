@@ -17,9 +17,9 @@ import feign.FeignException;
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.cartao.CartaoRepository;
 import microservico.relacao.de.proposta.excecao.RecursoNaoEncontradoExcecao;
-import microservico.relacao.de.proposta.feignclient.BloqueioFeignRequest;
-import microservico.relacao.de.proposta.feignclient.BloqueioFeignResponse;
-import microservico.relacao.de.proposta.feignclient.CartaoFeignClient;
+import microservico.relacao.de.proposta.feignclient.cartao.BloqueioFeignRequest;
+import microservico.relacao.de.proposta.feignclient.cartao.BloqueioFeignResponse;
+import microservico.relacao.de.proposta.feignclient.cartao.CartaoFeignClient;
 
 @RestController
 @RequestMapping(value = "/api/bloqueios")

@@ -1,4 +1,4 @@
-package microservico.relacao.de.proposta.feignclient;
+package microservico.relacao.de.proposta.feignclient.avaliacao;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

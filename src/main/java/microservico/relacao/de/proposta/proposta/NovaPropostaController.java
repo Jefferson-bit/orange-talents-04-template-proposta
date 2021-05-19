@@ -4,12 +4,9 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +15,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import feign.FeignException;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
-import microservico.relacao.de.proposta.feignclient.AvaliacaoFeignRequest;
-import microservico.relacao.de.proposta.feignclient.AvaliacaoFeignResponse;
-import microservico.relacao.de.proposta.feignclient.AvaliacaoFinanceiraFeignClient;
-import microservico.relacao.de.proposta.validacao.CampoUnico;
+import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFeignRequest;
+import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFeignResponse;
+import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFinanceiraFeignClient;
 
 @RestController
 @RequestMapping(value = "/api/propostas")
 public class NovaPropostaController {
 
-	@Autowired
-	private CampoUnico campoUnico;
 	private PropostaRepository propostaRepository;
 	private AvaliacaoFinanceiraFeignClient verificaAnaliseFinanceira;
 
@@ -36,11 +30,6 @@ public class NovaPropostaController {
 			AvaliacaoFinanceiraFeignClient verificaAnaliseFinanceira) {
 		this.propostaRepository = propostaRepository;
 		this.verificaAnaliseFinanceira = verificaAnaliseFinanceira;
-	}
-
-	@InitBinder
-	public void init(WebDataBinder binder) {
-		binder.addValidators(campoUnico);
 	}
 	
 	@PostMapping

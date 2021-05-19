@@ -1,4 +1,4 @@
-package microservico.relacao.de.proposta.feignclient;
+package microservico.relacao.de.proposta.feignclient.avaliacao;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.cartao.CartaoRepository;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
+import microservico.relacao.de.proposta.feignclient.cartao.CartaoFeignClient;
+import microservico.relacao.de.proposta.feignclient.cartao.CartaoFeignResponse;
 import microservico.relacao.de.proposta.proposta.Proposta;
 import microservico.relacao.de.proposta.proposta.PropostaRepository;
 

@@ -1,23 +1,25 @@
-package microservico.relacao.de.proposta.feignclient;
+package microservico.relacao.de.proposta.feignclient.avaliacao;
 
 import microservico.relacao.de.proposta.enums.StatusDaAvaliacao;
+import microservico.relacao.de.proposta.enums.StatusDaProposta;
 
-public class AvaliacaoFeignRequest {
+public class AvaliacaoFeignResponse {
 
 	private String documento;
 	private String nome;
 	private Long idProposta;
 	private StatusDaAvaliacao resultadoSolicitacao;
-	
-	public AvaliacaoFeignRequest() {
+
+	public AvaliacaoFeignResponse() {
 	}
 
-	public AvaliacaoFeignRequest(String documento, String nome, Long idProposta) {
+	public AvaliacaoFeignResponse(String documento, String nome, Long idProposta, StatusDaAvaliacao resultadoSolicitacao) {
 		this.documento = documento;
 		this.nome = nome;
 		this.idProposta = idProposta;
+		this.resultadoSolicitacao = resultadoSolicitacao;
 	}
-
+	
 	public String getDocumento() {
 		return documento;
 	}
@@ -29,8 +31,12 @@ public class AvaliacaoFeignRequest {
 	public Long getIdProposta() {
 		return idProposta;
 	}
-	
+
 	public StatusDaAvaliacao getResultadoSolicitacao() {
 		return resultadoSolicitacao;
+	}
+	
+	public StatusDaProposta status() {
+		return resultadoSolicitacao.getStatus();
 	}
 }
