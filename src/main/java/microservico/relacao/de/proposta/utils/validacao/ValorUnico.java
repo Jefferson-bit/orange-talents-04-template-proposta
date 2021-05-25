@@ -1,4 +1,4 @@
-package microservico.relacao.de.proposta.validacao;
+package microservico.relacao.de.proposta.utils.validacao;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

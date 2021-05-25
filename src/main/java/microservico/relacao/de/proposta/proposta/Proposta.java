@@ -3,6 +3,7 @@ package microservico.relacao.de.proposta.proposta;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.enums.StatusDaProposta;
+import microservico.relacao.de.proposta.utils.Criptografia;
 
 @Entity
 public class Proposta {
@@ -29,7 +31,8 @@ public class Proposta {
 	private String endereco;
 	@Column(nullable = false)
 	private BigDecimal salario;
-	@Column(nullable = false)
+	@Column(nullable = false) 
+	@Convert(converter = Criptografia.class)
 	private String documento;
 	@Enumerated(EnumType.STRING)
 	private StatusDaProposta resultadoSolicitacao;
@@ -54,7 +57,7 @@ public class Proposta {
 	}
 
 	public String getDocumento() {
-		return documento;
+		return documento;	
 	}
 
 	public String getEmail() {
@@ -77,21 +80,24 @@ public class Proposta {
 		return resultadoSolicitacao;
 	}
 
+	public Cartao getCartao() {
+		return cartao;
+	}
+
 	public void setResultadoSolicitacao(StatusDaProposta resultadoSolicitacao) {
-		if(resultadoSolicitacao == null) {
+		if (resultadoSolicitacao == null) {
 			throw new IllegalArgumentException("Status da Proposta não pode ser nulo");
 		}
 		this.resultadoSolicitacao = resultadoSolicitacao;
 	}
-	
-	public Cartao getCartao() {
-		return cartao;
-	}
-	
+
 	public void setCartao(Cartao cartao) {
-		if(cartao == null) {
+		if (cartao == null) {
 			throw new IllegalArgumentException("Cartão não pode ser nulo");
 		}
 		this.cartao = cartao;
 	}
+	
+
+	
 }

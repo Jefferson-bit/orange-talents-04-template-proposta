@@ -23,7 +23,7 @@ public class PropostaResponse {
 	}
 
 	public String getDocumento() {
-		return documento;
+		return this.documento;
 	}
 
 	public String getEmail() {

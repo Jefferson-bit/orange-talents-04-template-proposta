@@ -1,7 +1,12 @@
 package microservico.relacao.de.proposta.proposta;
 
 import java.net.URI;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -34,7 +39,7 @@ public class NovaPropostaController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> salvandoProposta(@Valid @RequestBody NovaPropostaRequest request) {
+	public ResponseEntity<?> cadastraProposta(@Valid @RequestBody NovaPropostaRequest request) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		Proposta proposta = request.toModel();
 		try {
 			proposta = propostaRepository.save(proposta);
@@ -51,5 +56,7 @@ public class NovaPropostaController {
 				.toUri();
 		return ResponseEntity.created(uri).body(request);
 	}
-
+	
+	
+	
 }

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.cartao.CartaoRepository;
 import microservico.relacao.de.proposta.excecao.RecursoNaoEncontradoExcecao;
+import microservico.relacao.de.proposta.utils.validacao.ValidaBase64;
 
 @RestController
 @RequestMapping(value = "/api/biometrias")
@@ -36,7 +36,7 @@ public class NovaBiometriaController {
 		Optional<Cartao> cartaoOptional = cartaoRepository.findById(idCartao);
 		Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
 		Biometria biometria = request.toModel(cartao);	
-		if (!Base64.isBase64(biometria.getFingerPrint())) {
+		if (ValidaBase64.isValidBase64(request.getFingerPrint())) {
 			return ResponseEntity.badRequest().body("Biometria invália");
 		}
 		biometriaRepository.save(biometria);

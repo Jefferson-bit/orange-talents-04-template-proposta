@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +24,7 @@ import microservico.relacao.de.proposta.biometria.Biometria;
 import microservico.relacao.de.proposta.bloqueio.Bloqueio;
 import microservico.relacao.de.proposta.carteira.Carteira;
 import microservico.relacao.de.proposta.proposta.Proposta;
+import microservico.relacao.de.proposta.utils.Criptografia;
 
 @Entity
 public class Cartao implements Serializable {
@@ -31,9 +34,13 @@ public class Cartao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column( nullable = false)
+	@Convert(converter = Criptografia.class)
 	private String numero;
 	private LocalDateTime emitidoEm;
+	@Column( nullable = false)
 	private String titular;
+	@Column( nullable = false)
 	private BigDecimal limite;
 	@OneToMany(mappedBy = "cartao")
 	private List<Biometria> biometrias = new ArrayList<>();

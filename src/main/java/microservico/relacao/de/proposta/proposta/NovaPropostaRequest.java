@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
-import microservico.relacao.de.proposta.validacao.CpfOuCnpj;
-import microservico.relacao.de.proposta.validacao.ValorUnico;
+import microservico.relacao.de.proposta.utils.validacao.CpfOuCnpj;
+import microservico.relacao.de.proposta.utils.validacao.ValorUnico;
 
 public class NovaPropostaRequest {
 
@@ -25,7 +25,7 @@ public class NovaPropostaRequest {
 	private BigDecimal salario;
 	@NotBlank(message = "CPF/CNPJ não pode ser vazio")
 	@CpfOuCnpj
-	@ValorUnico( tabela = Proposta.class, campo = "documento", message = "CPF/CNPJ já existe")
+	@ValorUnico(tabela = Proposta.class, campo = "documento", message = "CPF/CNPJ já existe")
 	private String documento;
 
 	public NovaPropostaRequest() {

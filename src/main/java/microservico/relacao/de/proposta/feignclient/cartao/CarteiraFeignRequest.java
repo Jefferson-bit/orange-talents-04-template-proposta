@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import microservico.relacao.de.proposta.cartao.Cartao;
 import microservico.relacao.de.proposta.carteira.Carteira;
 import microservico.relacao.de.proposta.enums.StatusDaCarteira;
-import microservico.relacao.de.proposta.validacao.ValorUnico;
+import microservico.relacao.de.proposta.utils.validacao.ValorUnico;
 
 public class CarteiraFeignRequest {
 
