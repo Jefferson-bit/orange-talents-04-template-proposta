@@ -1,15 +1,9 @@
 package microservico.relacao.de.proposta.proposta;
 
-import java.net.URI;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.validation.Valid;
-
-import org.springframework.http.MediaType;
+import microservico.relacao.de.proposta.enums.StatusDaProposta;
+import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFeignRequest;
+import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFeignResponse;
+import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFinanceiraFeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import feign.FeignException;
-import microservico.relacao.de.proposta.enums.StatusDaProposta;
-import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFeignRequest;
-import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFeignResponse;
-import microservico.relacao.de.proposta.feignclient.avaliacao.AvaliacaoFinanceiraFeignClient;
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/propostas")
@@ -39,7 +30,7 @@ public class NovaPropostaController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> cadastraProposta(@Valid @RequestBody NovaPropostaRequest request) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+	public ResponseEntity<?> cadastraProposta(@Valid @RequestBody NovaPropostaRequest request){
 		Proposta proposta = request.toModel();
 
 			proposta = propostaRepository.save(proposta);
@@ -48,13 +39,9 @@ public class NovaPropostaController {
 			AvaliacaoFeignResponse consultandoAnalise = verificaAnaliseFinanceira.consultandoAnalise(requestAv);
 			StatusDaProposta status = consultandoAnalise.status();
 			proposta.setResultadoSolicitacao(status);
-		
 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposta.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(request);
 	}
-	
-	
-	
 }

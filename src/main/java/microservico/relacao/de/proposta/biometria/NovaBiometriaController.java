@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,11 +32,14 @@ public class NovaBiometriaController {
 	}
 
 	@PostMapping(value = "/{idCartao}")
+	@Transactional
 	public ResponseEntity<?> cadastraBiometria(@Valid @RequestBody BiometriaRequest request,
 			@PathVariable Long idCartao) {
-		Optional<Cartao> cartaoOptional = cartaoRepository.findById(idCartao);
-		Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
-		Biometria biometria = request.toModel(cartao);	
+
+		Cartao cartao = cartaoRepository.findById(idCartao)
+				.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
+		Biometria biometria = request.toModel(cartao);
+
 		if (ValidaBase64.isValidBase64(request.getFingerPrint())) {
 			return ResponseEntity.badRequest().body("Biometria invália");
 		}
@@ -43,6 +47,5 @@ public class NovaBiometriaController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(biometria.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(request);
-
 	}
 }

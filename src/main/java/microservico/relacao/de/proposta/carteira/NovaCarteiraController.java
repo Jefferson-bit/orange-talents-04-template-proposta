@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,29 +27,32 @@ import microservico.relacao.de.proposta.feignclient.cartao.CarteiraFeignResponse
 @RequestMapping(value = "/api/carteiras")
 public class NovaCarteiraController {
 
-	private CartaoFeignClient cartaoFeignClient;
-	private CartaoRepository cartaoRepository;
-	private CarteiraRepository carteiraRepository;
+    private CartaoFeignClient cartaoFeignClient;
+    private CartaoRepository cartaoRepository;
+    private CarteiraRepository carteiraRepository;
 
-	public NovaCarteiraController(CartaoFeignClient cartaoFeignClient, CartaoRepository cartaoRepository,
-			CarteiraRepository carteiraRepository) {
-		this.cartaoFeignClient = cartaoFeignClient;
-		this.cartaoRepository = cartaoRepository;
-		this.carteiraRepository = carteiraRepository;
-	}
+    public NovaCarteiraController(CartaoFeignClient cartaoFeignClient, CartaoRepository cartaoRepository,
+                                  CarteiraRepository carteiraRepository) {
+        this.cartaoFeignClient = cartaoFeignClient;
+        this.cartaoRepository = cartaoRepository;
+        this.carteiraRepository = carteiraRepository;
+    }
 
-	@PostMapping("/{idCartao}")
-	public ResponseEntity<?> cadastraCarteira(@Valid @RequestBody CarteiraFeignRequest request,
-			@PathVariable String idCartao) {
+    @PostMapping("/{idCartao}")
+    @Transactional
+    public ResponseEntity<CarteiraFeignResponse> cadastraCarteira(@Valid @RequestBody CarteiraFeignRequest request,
+                                              @PathVariable String idCartao) {
 
-			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
-			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
-			CarteiraFeignResponse consultaCarteira = cartaoFeignClient.consultaCarteira(cartao.getNumero(), request);
-			Carteira carteira = request.toModel(cartao, consultaCarteira.getResultado(), consultaCarteira.getId());
-			carteiraRepository.save(carteira);
-			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(carteira.getId())
-					.toUri();
-			return ResponseEntity.created(uri).body(consultaCarteira);
+        Cartao cartao = cartaoRepository.findBynumero(idCartao)
+                .orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
+        CarteiraFeignResponse consultaCarteira = cartaoFeignClient.consultaCarteira(cartao.getNumero(), request);
 
-	}
+        Carteira carteira = request.toModel(cartao, consultaCarteira.getResultado(), consultaCarteira.getId());
+
+        carteiraRepository.save(carteira);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(carteira.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(consultaCarteira);
+    }
 }

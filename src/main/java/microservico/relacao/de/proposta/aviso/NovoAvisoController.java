@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,28 +26,28 @@ import microservico.relacao.de.proposta.feignclient.cartao.CartaoFeignClient;
 @RequestMapping(value = "/api/avisos")
 public class NovoAvisoController {
 
-	private CartaoFeignClient cartaoFeignClient;
-	private AvisoRepository avisoRepository;
-	private CartaoRepository cartaoRepository;
+    private CartaoFeignClient cartaoFeignClient;
+    private AvisoRepository avisoRepository;
+    private CartaoRepository cartaoRepository;
 
-	public NovoAvisoController(CartaoFeignClient cartaoFeignClient, AvisoRepository avisoRepository,
-			CartaoRepository cartaoRepository) {
-		this.cartaoFeignClient = cartaoFeignClient;
-		this.avisoRepository = avisoRepository;
-		this.cartaoRepository = cartaoRepository;
-	}
+    public NovoAvisoController(CartaoFeignClient cartaoFeignClient, AvisoRepository avisoRepository,
+                               CartaoRepository cartaoRepository) {
+        this.cartaoFeignClient = cartaoFeignClient;
+        this.avisoRepository = avisoRepository;
+        this.cartaoRepository = cartaoRepository;
+    }
 
-	@PostMapping("/{idCartao}")
-	public ResponseEntity<?> cadastraAvisoViagem(@PathVariable String idCartao,
-										   @Valid @RequestBody AvisoFeignRequest request,
-										   HttpServletRequest servletRequest) {
+    @PostMapping("/{idCartao}")
+    @Transactional
+    public ResponseEntity<AvisoFeignResponse> cadastraAvisoViagem(@PathVariable String idCartao,
+                                                 @Valid @RequestBody AvisoFeignRequest request,
+                                                 HttpServletRequest servletRequest) {
 
-			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
-			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
-			AvisoFeignResponse consultaAviso = cartaoFeignClient.consultaAviso(cartao.getNumero(), request);
+        Cartao cartao = cartaoRepository.findBynumero(idCartao)
+                .orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
+        AvisoFeignResponse consultaAviso = cartaoFeignClient.consultaAviso(cartao.getNumero(), request);
 
-			Aviso aviso = request.toModel(cartao, servletRequest);
-			avisoRepository.save(aviso);
-			return ResponseEntity.ok(consultaAviso);
-	}
+        avisoRepository.save(request.toModel(cartao, servletRequest));
+        return ResponseEntity.ok(consultaAviso);
+    }
 }

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,33 +26,35 @@ import microservico.relacao.de.proposta.feignclient.cartao.CartaoFeignClient;
 @RequestMapping(value = "/api/bloqueios")
 public class NovoBloqueioController {
 
-	private BloqueioRepository bloqueioRepository;
-	private CartaoRepository cartaoRepository;
-	private CartaoFeignClient cartaoFeignClient;
 
-	public NovoBloqueioController(BloqueioRepository bloqueioRepository, CartaoRepository cartaoRepository,
-			CartaoFeignClient cartaoFeignClient) {
-		this.bloqueioRepository = bloqueioRepository;
-		this.cartaoRepository = cartaoRepository;
-		this.cartaoFeignClient = cartaoFeignClient;
-	}
-	
-	@PostMapping(value = "/{idCartao}")
-	public ResponseEntity<?> cadastraBloqueio(
-			@PathVariable String idCartao,
-			@Valid @RequestBody BloqueioFeignRequest request,
-			HttpServletRequest servletRequest) {
+    private BloqueioRepository bloqueioRepository;
+    private CartaoRepository cartaoRepository;
+    private CartaoFeignClient cartaoFeignClient;
 
-			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
-			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
-			
-			BloqueioFeignResponse bloqueiaCartaoResponse = cartaoFeignClient.bloqueiaCartao(cartao.getNumero(),
-					request);
-			Bloqueio bloqueio = bloqueiaCartaoResponse.toModel(cartao, servletRequest);
-			bloqueioRepository.save(bloqueio);
+    public NovoBloqueioController(BloqueioRepository bloqueioRepository, CartaoRepository cartaoRepository,
+                                  CartaoFeignClient cartaoFeignClient) {
+        this.bloqueioRepository = bloqueioRepository;
+        this.cartaoRepository = cartaoRepository;
+        this.cartaoFeignClient = cartaoFeignClient;
+    }
 
-			return ResponseEntity.ok(bloqueiaCartaoResponse);
+    @PostMapping(value = "/{idCartao}")
+    @Transactional
+    public ResponseEntity<BloqueioFeignResponse> cadastraBloqueio(
+            @PathVariable String idCartao,
+            @Valid @RequestBody BloqueioFeignRequest request,
+            HttpServletRequest servletRequest) {
 
-	}
+        Cartao cartao = cartaoRepository.findBynumero(idCartao)
+                .orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
+
+        BloqueioFeignResponse bloqueiaCartaoResponse = cartaoFeignClient.bloqueiaCartao(cartao.getNumero(),
+                request);
+
+        bloqueioRepository.save(bloqueiaCartaoResponse.toModel(cartao, servletRequest));
+
+        return ResponseEntity.ok(bloqueiaCartaoResponse);
+
+    }
 
 }
