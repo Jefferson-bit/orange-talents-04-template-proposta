@@ -40,7 +40,7 @@ public class NovaCarteiraController {
 	@PostMapping("/{idCartao}")
 	public ResponseEntity<?> cadastraCarteira(@Valid @RequestBody CarteiraFeignRequest request,
 			@PathVariable String idCartao) {
-		try {
+
 			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
 			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
 			CarteiraFeignResponse consultaCarteira = cartaoFeignClient.consultaCarteira(cartao.getNumero(), request);
@@ -49,8 +49,6 @@ public class NovaCarteiraController {
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(carteira.getId())
 					.toUri();
 			return ResponseEntity.created(uri).body(consultaCarteira);
-		} catch (FeignException.UnprocessableEntity ex) {
-			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
-		}
+
 	}
 }

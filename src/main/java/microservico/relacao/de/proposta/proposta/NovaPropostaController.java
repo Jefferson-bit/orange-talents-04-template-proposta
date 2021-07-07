@@ -41,7 +41,7 @@ public class NovaPropostaController {
 	@Transactional
 	public ResponseEntity<?> cadastraProposta(@Valid @RequestBody NovaPropostaRequest request) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		Proposta proposta = request.toModel();
-		try {
+
 			proposta = propostaRepository.save(proposta);
 			AvaliacaoFeignRequest requestAv = new AvaliacaoFeignRequest(proposta.getDocumento(), proposta.getNome(),
 					proposta.getId());
@@ -49,9 +49,7 @@ public class NovaPropostaController {
 			StatusDaProposta status = consultandoAnalise.status();
 			proposta.setResultadoSolicitacao(status);
 		
-		} catch (FeignException.UnprocessableEntity ex) {
-			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
-		}
+
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposta.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(request);

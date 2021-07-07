@@ -40,7 +40,7 @@ public class NovoAvisoController {
 	public ResponseEntity<?> cadastraAvisoViagem(@PathVariable String idCartao,
 										   @Valid @RequestBody AvisoFeignRequest request,
 										   HttpServletRequest servletRequest) {
-		try {
+
 			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
 			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
 			AvisoFeignResponse consultaAviso = cartaoFeignClient.consultaAviso(cartao.getNumero(), request);
@@ -48,8 +48,5 @@ public class NovoAvisoController {
 			Aviso aviso = request.toModel(cartao, servletRequest);
 			avisoRepository.save(aviso);
 			return ResponseEntity.ok(consultaAviso);
-		} catch (FeignException.UnprocessableEntity ex) {
-			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
-		}
 	}
 }

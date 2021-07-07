@@ -41,8 +41,7 @@ public class NovoBloqueioController {
 			@PathVariable String idCartao,
 			@Valid @RequestBody BloqueioFeignRequest request,
 			HttpServletRequest servletRequest) {
-			
-		try {
+
 			Optional<Cartao> cartaoOptional = cartaoRepository.findBynumero(idCartao);
 			Cartao cartao = cartaoOptional.orElseThrow(() -> new RecursoNaoEncontradoExcecao("Not found: " + idCartao));
 			
@@ -52,9 +51,6 @@ public class NovoBloqueioController {
 			bloqueioRepository.save(bloqueio);
 
 			return ResponseEntity.ok(bloqueiaCartaoResponse);
-		} catch (FeignException.UnprocessableEntity ex) {
-			return ResponseEntity.unprocessableEntity().contentType(MediaType.APPLICATION_JSON).body(ex.contentUTF8());
-		}
 
 	}
 

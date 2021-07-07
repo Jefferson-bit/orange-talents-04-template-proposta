@@ -1,41 +1,32 @@
 package microservico.relacao.de.proposta.feignclient;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
-
-import feign.FeignException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-@Component
 public class CustomFeignException implements ErrorDecoder {
-	private static final Logger log = LoggerFactory.getLogger(CustomFeignException.class);
-	
-	@Override
-	public Exception decode(String methodKey, Response response) {
-		switch (response.status()) {
-		case 400:
-			log.error("Status code " + response.status() + ", methodKey = " + methodKey,
-					", causa " + "Houve uma violação na restrição");
-			return new ResponseStatusException(HttpStatus.valueOf(response.status()));
-		case 404:
-			log.error("Status code " + response.status() + ", methodKey = " + methodKey,
-			", causa: " + "O valor requerido não foi encontrado");
-			return new ResponseStatusException(HttpStatus.valueOf(response.status()));
-		case 503:
-			log.error("Status code " + response.status() + ", methodKey = " + methodKey,
-					", causa " + "O servidor está indisponivel no momento");
-			return new ResponseStatusException(HttpStatus.valueOf(response.status()));
-		case 504:
-			log.error("Status code " + response.status() + ", methodKey = " + methodKey,
-					", causa " + "O servidor não recebeu nenhuma resposta");
-			return new ResponseStatusException(HttpStatus.valueOf(response.status()));
-		default:
-			return FeignException.InternalServerError.errorStatus(methodKey, response);
-		}
-	}
-
+    @Override
+    public Exception decode(String methodKey, Response response) {
+        switch (response.status()){
+            case 400:
+                return new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "Houve uma violação na requisição");
+            case 404:
+                return new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Recurso Não encontrado");
+            case 422:
+                return new ResponseStatusException(
+                        HttpStatus.UNPROCESSABLE_ENTITY, "Houve uma violação na regra de negócio");
+            case 504:
+                return new ResponseStatusException(
+                        HttpStatus.GATEWAY_TIMEOUT, "Sem resposta do servidor upstream");
+            case 503:
+                return new ResponseStatusException(
+                        HttpStatus.SERVICE_UNAVAILABLE, "O servidor está indisponível no momento");
+            default:
+                return new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um erro inesperado");
+        }
+    }
 }

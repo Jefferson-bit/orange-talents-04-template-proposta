@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 
+import feign.FeignException;
+import feign.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -39,5 +41,5 @@ public class ManipuladorDeExcecao {
 		HttpStatus.NOT_FOUND.value(), ex.getMessage(), "Not Found", request.getRequestURI());
 	
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(validatorError);
-	}	
+	}
 }
