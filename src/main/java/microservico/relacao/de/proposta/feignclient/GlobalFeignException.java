@@ -5,7 +5,7 @@ import feign.codec.ErrorDecoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-public class CustomFeignException implements ErrorDecoder {
+public class GlobalFeignException implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
         switch (response.status()){

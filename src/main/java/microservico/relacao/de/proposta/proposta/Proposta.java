@@ -1,6 +1,7 @@
 package microservico.relacao.de.proposta.proposta;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -97,7 +98,18 @@ public class Proposta {
 		}
 		this.cartao = cartao;
 	}
-	
 
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Proposta proposta = (Proposta) o;
+		return Objects.equals(id, proposta.id) && Objects.equals(email, proposta.email) && Objects.equals(nome, proposta.nome) && Objects.equals(endereco, proposta.endereco) && Objects.equals(salario, proposta.salario) && Objects.equals(documento, proposta.documento) && resultadoSolicitacao == proposta.resultadoSolicitacao && Objects.equals(cartao, proposta.cartao);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, email, nome, endereco, salario, documento, resultadoSolicitacao, cartao);
+	}
 }

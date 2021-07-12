@@ -1,7 +1,7 @@
 package microservico.relacao.de.proposta.config;
 
 import feign.codec.ErrorDecoder;
-import microservico.relacao.de.proposta.feignclient.CustomFeignException;
+import microservico.relacao.de.proposta.feignclient.GlobalFeignException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +10,6 @@ public class ClientConfig {
 
     @Bean
     public ErrorDecoder errorDecoder(){
-        return new CustomFeignException();
+        return new GlobalFeignException();
     }
 }

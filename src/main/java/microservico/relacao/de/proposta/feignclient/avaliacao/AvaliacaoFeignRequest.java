@@ -1,14 +1,16 @@
 package microservico.relacao.de.proposta.feignclient.avaliacao;
 
 import microservico.relacao.de.proposta.enums.StatusDaAvaliacao;
+import microservico.relacao.de.proposta.proposta.Proposta;
+
+import java.util.Objects;
 
 public class AvaliacaoFeignRequest {
 
 	private String documento;
 	private String nome;
 	private Long idProposta;
-	private StatusDaAvaliacao resultadoSolicitacao;
-	
+
 	public AvaliacaoFeignRequest() {
 	}
 
@@ -16,6 +18,12 @@ public class AvaliacaoFeignRequest {
 		this.documento = documento;
 		this.nome = nome;
 		this.idProposta = idProposta;
+	}
+
+	public AvaliacaoFeignRequest(Proposta proposta){
+		this.documento = proposta.getDocumento();
+		this.nome = proposta.getNome();
+		this.idProposta = proposta.getId();
 	}
 
 	public String getDocumento() {
@@ -29,8 +37,17 @@ public class AvaliacaoFeignRequest {
 	public Long getIdProposta() {
 		return idProposta;
 	}
-	
-	public StatusDaAvaliacao getResultadoSolicitacao() {
-		return resultadoSolicitacao;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		AvaliacaoFeignRequest that = (AvaliacaoFeignRequest) o;
+		return Objects.equals(documento, that.documento) && Objects.equals(nome, that.nome) && Objects.equals(idProposta, that.idProposta);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(documento, nome, idProposta);
 	}
 }

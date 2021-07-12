@@ -12,8 +12,5 @@ public interface PropostaRepository extends JpaRepository<Proposta, Long> {
 	
 	@Query( "SELECT obj FROM Proposta obj WHERE obj.cartao IS NULL "
 			+ "AND obj.resultadoSolicitacao = :resultadoSolicitacao")
-	List<Proposta> buscaPropostasQueNaoPossuiNumeroDoCartao(StatusDaProposta resultadoSolicitacao);	
-	
-
-	Optional<String> findBydocumento(String cpfOuCnpj);
+	List<Proposta> buscaPropostasQueNaoPossuiNumeroDoCartao(StatusDaProposta resultadoSolicitacao);
 }
